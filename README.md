@@ -4,7 +4,7 @@ This is a sample composite action that will generate statistics about the change
 
 ## Inputs
 
-- `fromDate`: The start date for the statistics.
+- `fromDate`: The start date for the statistics. Format: `YYYY-MM-DD`. Default: `2021-01-01`
 
 ## Usage
 
