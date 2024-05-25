@@ -6,12 +6,23 @@ This is a sample composite action that will generate statistics about the change
 
 - `fromDate`: The start date for the statistics.
 
-## Outputs
-
-- `stats`: Contribution statistics about the repository.
-- `contributors`: A list of all contributors to the repository.
-
 ## Usage
 
 ```yaml
+name: "Compile statistics"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  compile_stats:
+    runs-on: ubuntu-latest
+    name: Repository statistics
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: LearningGHActions/composite-action@main
+        id: stats_results
+        with:
+          from-date: '2024-01-01'
 ```

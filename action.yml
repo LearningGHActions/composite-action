@@ -7,13 +7,6 @@ inputs:
     description: "The start date for the statistics"
     required: true
     default: "2021-01-01"
-outputs:
-  stats:
-    description: "Statistics for the target repository"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
-  contributors:
-    description: "Contributors to the target repository"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
 
 runs:
   using: "composite"
@@ -26,30 +19,15 @@ runs:
         ## Source: https://gist.github.com/eyecatchup/3fb7ef0c0cbdb72412fc
         CHANGES="$(git log --pretty=tformat: --numstat --since=$FROM_DATE | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf "Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n", inserted, deleted, delta, ratio }' -)"
 
-        echo "Repo statistics:"
+        # Print output
         echo "$CHANGES"
-
-        # Set output
-        {
-          echo 'stats<<EOF'
-          echo "$CHANGES"
-          echo EOF
-        } >> $GITHUB_OUTPUT
 
         # Fetch contributors
         CONTRIBUTORS="$(git shortlog -sn --since=$FROM_DATE)"
 
-        echo "Contributors: "
-        echo "$CONTRIBUTORS"
+        # Print output
+        echo "Contributors: $CONTRIBUTORS"
 
-        # Set output
-        {
-          echo 'contributors=<<EOF'
-          echo "$CONTRIBUTORS"
-          echo EOF
-        } >> "$GITHUB_OUTPUT"
-
-        echo $GITHUB_OUTPUT
       shell: bash
       env:
         FROM_DATE: ${{ inputs.from-date }}
