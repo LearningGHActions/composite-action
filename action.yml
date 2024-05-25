@@ -20,13 +20,14 @@ runs:
   steps:
     - name: Fetch statistics
       run: |
-        echo "Fetching statistics..."
+        echo "Fetching statistics from: $FROM_DATE... "
 
         # Fetch commit stats
         ## Source: https://gist.github.com/eyecatchup/3fb7ef0c0cbdb72412fc
         CHANGES="$(git log --pretty=tformat: --numstat --since=$FROM_DATE | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf "Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n", inserted, deleted, delta, ratio }' -)"
+        echo "$CHANGES"
         {
-          echo 'stats<<EOF'
+          echo 'stats=<<EOF'
           echo "$CHANGES"
           echo EOF
         } >> "$GITHUB_OUTPUT"
@@ -34,10 +35,12 @@ runs:
         # Fetch contributors
         CONTRIBUTORS="$(git shortlog -sn --since=$FROM_DATE)"
         {
-          echo 'contributors<<EOF'
+          echo 'contributors=<<EOF'
           echo "$CONTRIBUTORS"
           echo EOF
         } >> "$GITHUB_OUTPUT"
+
+        echo $GITHUB_OUTPUT
       shell: bash
       env:
         FROM_DATE: ${{ inputs.from-date }}
