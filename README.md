@@ -4,12 +4,12 @@ This is a sample composite action that will generate statistics about the change
 
 ## Inputs
 
-`fromDate`: The start date for the statistics.
+- `fromDate`: The start date for the statistics.
 
 ## Outputs
 
-`stats`: Contribution statistics about the repository.
-`contributors`: A list of all contributors to the repository.
+- `stats`: Contribution statistics about the repository.
+- `contributors`: A list of all contributors to the repository.
 
 ## Usage
 
