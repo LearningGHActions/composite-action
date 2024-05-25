@@ -21,13 +21,6 @@ runs:
 
         # Print output
         echo "$CHANGES"
-
-        # Fetch contributors
-        CONTRIBUTORS="$(git shortlog -sn --since=$FROM_DATE)"
-
-        # Print output
-        echo "Contributors: $CONTRIBUTORS"
-
       shell: bash
       env:
         FROM_DATE: ${{ inputs.from-date }}
